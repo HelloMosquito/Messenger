@@ -1,19 +1,9 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import TextField from "@material-ui/core/TextField";
-import Paper from "@material-ui/core/Paper";
-import Box from "@material-ui/core/Box";
-import Hidden from "@material-ui/core/Hidden";
-import Snackbar from "@material-ui/core/Snackbar";
+import {CssBaseline, Box, Button, Grid, Hidden, IconButton, makeStyles, Paper, Snackbar, TextField, Typography} from "@material-ui/core";
 import { Link, useHistory } from "react-router-dom";
-import Grid from "@material-ui/core/Grid";
-import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
   root: {

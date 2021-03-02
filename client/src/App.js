@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Redirect } from "react-router-dom";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
+import Messenger from "./pages/Messenger";
 
 import "./App.css";
 
@@ -18,6 +19,7 @@ function App() {
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route path="/dashboard" component={Dashboard} />
+        <Route path="/messenger" component={Messenger} />
         <Route exact path="/">
           <Redirect to="/signup" />
         </Route>
