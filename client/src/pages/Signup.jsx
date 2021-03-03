@@ -112,12 +112,17 @@ function useRegister() {
   const login = async (username, email, password) => {
     console.log(email, password);
     const res = await fetch(
-      `/auth/signup?username=${username}&email=${email}&password=${password}`
+      `/auth/signup?username=${username}&email=${email}&password=${password}`, {
+      method: "POST"
+      // headers: { "Content-Type": "application/json" },
+      // body: { "email": email, "username": username, "password": password }
+    }
     ).then(res => res.json());
     console.log(res);
     localStorage.setItem("user", res.user);
     localStorage.setItem("token", res.token);
-    history.push("/dashboard");
+    // history.push("/dashboard");
+    history.push("/login");
   };
   return login;
 }
@@ -137,7 +142,8 @@ export default function Register() {
 
   React.useEffect(() => {
     const user = localStorage.getItem("user");
-    if (user) history.push("/dashboard");
+    // if (user) history.push("/dashboard");
+    if(user) history.push("/login");
   }, []);
 
   return (
