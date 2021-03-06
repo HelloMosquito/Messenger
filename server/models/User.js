@@ -1,35 +1,51 @@
-const Sequelize = require('sequelize');
-const { sequelize } = require('../database/sequelize');
+const Sequelize = require("sequelize");
+const { dbConnection } = require("../dal/db.connection");
 
-const User = sequelize.define('users', {
+const User = dbConnection.define(
+  "users",
+  {
     id: {
-        field: 'id',
-        type: Sequelize.STRING,
-        primaryKey: true,
-        autoIncrement:true
+      field: "id",
+      type: Sequelize.STRING,
+      primaryKey: true,
+      autoIncrement: true,
     },
     username: {
-        field: 'username',
-        type: Sequelize.STRING
+      field: "username",
+      type: Sequelize.STRING,
+      allowNull: false,
     },
     email: {
-        field: 'email',
-        type: Sequelize.STRING
+      field: "email",
+      type: Sequelize.STRING,
+      allowNull: false,
+      unique: {
+        args: true,
+        msg: "This email has been registered.",
+      },
+      validate: {
+        isEmail: {
+          args: true,
+          msg: "Invalid email format",
+        },
+      },
     },
     passwd: {
-        field: 'passwd',
-        type: Sequelize.STRING
+      field: "passwd",
+      type: Sequelize.STRING,
+      allowNull: false,
     },
     createdAt: {
-        field: 'createdat',
-        type: Sequelize.DATE
-    }, 
+      field: "createdat",
+      type: Sequelize.DATE,
+    },
     updatedAt: {
-        field: 'updatedat',
-        type: Sequelize.DATE
-    }
-}, {
-    timestamps: true
-});
-
+      field: "updatedat",
+      type: Sequelize.DATE,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 module.exports = { User };

@@ -1,20 +1,21 @@
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 const secret = process.env.ACCESS_TOKEN_SECRET;
 
 let createToken = (payload) => {
-    return jwt.sign(payload, secret);
+  // payload should be object
+  return jwt.sign(payload, secret, { expiresIn: "1m" });
 };
 
 let checkToken = (token) => {
-    return new Promise((resolve, reject)=>{
-        jwt.verify(token, secret, (err, data)=>{
-            if(err){reject('invalid token')}
-            resolve(data);
-        })
-    });
+  jwt.verify(token, secret, (err, validation) => {
+    if (err) {
+      throw err;
+    }
+  });
+  return true;
 };
 
 module.exports = {
-    createToken,
-    checkToken,
-}
+  createToken,
+  checkToken,
+};
