@@ -1,3 +1,4 @@
+const bcrypt = require("bcrypt");
 const { findUserByEmail } = require("../dal/dao/user.dao");
 const { createToken } = require("../utils/jwt");
 
@@ -7,12 +8,27 @@ const loginService = async (email, password) => {
       throw new Error("Missing essential parameter(s)");
     }
     let user = await findUserByEmail(email);
+    let loginResponse;
+    if (!user) {
+      loginResponse = {
+        loginStatus: false,
+        msg: "User doesn't exist.",
+      };
+      return loginResponse;
+    }
+    if (!bcrypt.compareSync(password, user.passwd)) {
+      loginResponse = {
+        loginStatus: false,
+        msg: "Invalid password, please try again.",
+      };
+      return loginResponse;
+    }
     let token = "Bearer " + createToken({ email: email });
-    let data = {
+    loginResponse = {
+      loginStatus: true,
       token: token,
-      data: user,
     };
-    return data;
+    return loginResponse;
   } catch (err) {
     throw err;
   }

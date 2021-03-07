@@ -8,7 +8,7 @@ let signupService = async (username, email, passwd) => {
     }
     await addUser(username, email, encrypt(passwd));
     let data = {
-      signupOrNot: true,
+      signupSuccess: true,
     };
     return data;
   } catch (err) {

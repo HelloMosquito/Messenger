@@ -6,10 +6,17 @@ const authenticate = (req, res, next) => {
     const token = bearerHeader.split(" ")[1];
     try {
       if (checkToken(token)) {
-        return res.status(200).send("login successfully");
+        let loginStatus = {
+          loginSuccess: true,
+        };
+        return res.status(200).end(JSON.stringify(loginStatus));
       }
     } catch (err) {
-      return res.status(403).send("invalid token");
+      let loginStatus = {
+        loginSuccess: false,
+        msg: "invalid token",
+      };
+      return res.status(403).end(JSON.stringify(loginStatus));
     }
   }
   next();

@@ -6,7 +6,6 @@ const authenticate = (token) => {
       return true;
     }
   } catch (err) {
-    console.log("authenticate.service.js");
     throw err;
   }
 };
