@@ -12,8 +12,7 @@ const success = (res, data, extra = 0) => {
   }
   message.status = 0;
   message.data = data;
-
-  res.status(200).send(message);
+  res.status(200).json(message);
 };
 
 module.exports = { success, fail };

@@ -2,20 +2,22 @@ import React from "react";
 import {
   CssBaseline,
   Box,
-  Button,
   Grid,
-  Hidden,
-  IconButton,
-  makeStyles,
   Paper,
-  Snackbar,
   TextField,
   Typography,
 } from "@material-ui/core";
-import { Link, useHistory } from "react-router-dom";
-import CloseIcon from "@material-ui/icons/Close";
+import { makeStyles } from "@material-ui/core/styles";
+import { useHistory } from "react-router-dom";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import {
+  IndexPosterComponent,
+  IndexNavHeaderComponent,
+  IndexSnackbarComponent,
+  IndexTitleComponent,
+  IndexSubmitBtnComponent,
+} from "../components/Components";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,13 +25,6 @@ const useStyles = makeStyles((theme) => ({
     "& .MuiInput-underline:before": {
       borderBottom: "1.2px solid rgba(0, 0, 0, 0.2)",
     },
-  },
-  welcome: {
-    fontSize: 26,
-    paddingBottom: 20,
-    color: "#000000",
-    fontWeight: 700,
-    fontFamily: "'Open Sans'",
   },
   heroText: {
     fontSize: 26,
@@ -39,18 +34,6 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 30,
     maxWidth: 300,
   },
-  overlay: {
-    backgroundImage:
-      "linear-gradient(180deg, rgb(58,141,255, 0.75) 0%, rgb(134,185,255, 0.75) 100%)",
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    flexDirection: "column",
-    minHeight: "100vh",
-    paddingBottom: 145,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
   buttonHeader: {
     display: "flex",
     alignItems: "flex-start",
@@ -59,24 +42,6 @@ const useStyles = makeStyles((theme) => ({
     bgcolor: "background.paper",
     minHeight: "100vh",
     paddingTop: 23,
-  },
-  accBtn: {
-    width: 170,
-    height: 54,
-    borderRadius: 5,
-    filter: "drop-shadow(0px 2px 6px rgba(74,106,149,0.2))",
-    backgroundColor: "#ffffff",
-    color: "#3a8dff",
-    boxShadow: "none",
-    marginRight: 35,
-  },
-  noAccBtn: {
-    fontSize: 14,
-    color: "#b0b0b0",
-    fontWeight: 400,
-    textAlign: "center",
-    marginRight: 21,
-    whiteSpace: "nowrap",
   },
   image: {
     backgroundImage: "url(./images/bg-img.png)",
@@ -99,49 +64,34 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
   },
   label: { fontSize: 19, color: "rgb(0,0,0,0.4)", paddingLeft: "5px" },
-  submit: {
-    margin: theme.spacing(3, 2, 2),
-    padding: 10,
-    width: 160,
-    height: 56,
-    borderRadius: 3,
-    marginTop: 49,
-    fontSize: 16,
-    backgroundColor: "#3a8dff",
-    fontWeight: "bold",
-  },
   inputs: {
     marginTop: ".8rem",
     height: "2rem",
     padding: "5px",
   },
-  link: { textDecoration: "none", display: "flex", flexWrap: "nowrap" },
 }));
 
 function useRegister() {
   const history = useHistory();
 
   const login = async (username, email, password) => {
-    console.log(email, password);
-    const res = await fetch(
-      `/auth/signup?username=${username}&email=${email}&password=${password}`,
-      {
-        method: "POST",
-        // headers: { "Content-Type": "application/json" },
-        // body: { "email": email, "username": username, "password": password }
-      }
-    ).then((res) => res.json());
+    const res = await fetch(`/auth/signup`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: email,
+        username: username,
+        password: password,
+      }),
+    }).then((res) => res.json());
     console.log(res);
+    console.log(typeof res);
     console.log(res.data.signupSuccess);
     if (res.data.signupSuccess) {
       history.push("/login");
     } else {
       console.log("register failed");
     }
-    localStorage.setItem("user", res.user);
-    localStorage.setItem("token", res.token);
-    // history.push("/dashboard");
-    // history.push("/login");
   };
   return login;
 }
@@ -159,69 +109,40 @@ export default function Register() {
 
   const history = useHistory();
 
-  React.useEffect(() => {
-    const user = localStorage.getItem("user");
-    // if (user) history.push("/dashboard");
-    if (user) history.push("/login");
-  }, []);
-
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
+
       <Grid item xs={false} sm={4} md={5} className={classes.image}>
-        <Box className={classes.overlay}>
-          <Hidden xsDown>
-            <img width={67} src="/images/chatBubble.png" />
-            <Hidden smDown>
-              <Typography className={classes.heroText}>
-                Converse with anyone with any language
-              </Typography>
-            </Hidden>
-          </Hidden>
-        </Box>
+        <IndexPosterComponent />
       </Grid>
+
       <Grid item xs={12} sm={8} md={7} elevation={6} component={Paper} square>
         <Box className={classes.buttonHeader}>
-          <Box p={1} alignSelf="flex-end" alignItems="center">
-            <Link to="/login" className={classes.link}>
-              <Button className={classes.noAccBtn}>
-                Already have an account?
-              </Button>
-              <Button
-                color="background"
-                className={classes.accBtn}
-                variant="contained"
-              >
-                Login
-              </Button>
-            </Link>
-          </Box>
-
+          <IndexNavHeaderComponent
+            accBtnText="Login"
+            noAccBtnText="Already have an account?"
+            linkedPath="/login"
+          />
           <Box width="100%" maxWidth={450} p={3} alignSelf="center">
-            <Grid container>
-              <Grid item xs>
-                <Typography
-                  className={classes.welcome}
-                  component="h1"
-                  variant="h5"
-                >
-                  Create an account
-                </Typography>
-              </Grid>
-            </Grid>
+            <IndexTitleComponent title="Create an account" />
             <Formik
               initialValues={{
+                username: "",
                 email: "",
                 password: "",
               }}
               validationSchema={Yup.object().shape({
                 username: Yup.string()
+                  .trim()
                   .required("Username is required")
                   .max(40, "Username is too long"),
                 email: Yup.string()
+                  .trim()
                   .required("Email is required")
                   .email("Email is not valid"),
                 password: Yup.string()
+                  .trim()
                   .required("Password is required")
                   .max(100, "Password is too long")
                   .min(6, "Password too short"),
@@ -316,45 +237,14 @@ export default function Register() {
                     type="password"
                   />
 
-                  <Box textAlign="center">
-                    <Button
-                      type="submit"
-                      size="large"
-                      variant="contained"
-                      color="primary"
-                      className={classes.submit}
-                    >
-                      Create
-                    </Button>
-                  </Box>
+                  <IndexSubmitBtnComponent submitBtnText="Create" />
                 </form>
               )}
             </Formik>
           </Box>
           <Box p={1} alignSelf="center" />
         </Box>
-        <Snackbar
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "center",
-          }}
-          open={open}
-          autoHideDuration={6000}
-          onClose={handleClose}
-          message="Email already exists"
-          action={
-            <React.Fragment>
-              <IconButton
-                size="small"
-                aria-label="close"
-                color="inherit"
-                onClick={handleClose}
-              >
-                <CloseIcon fontSize="small" />
-              </IconButton>
-            </React.Fragment>
-          }
-        />
+        <IndexSnackbarComponent initState={true} msg="Email already exists" />
       </Grid>
     </Grid>
   );
