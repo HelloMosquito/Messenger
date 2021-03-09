@@ -3,7 +3,7 @@ const secret = process.env.ACCESS_TOKEN_SECRET;
 
 let createToken = (payload) => {
   // payload should be object
-  return jwt.sign(payload, secret, { expiresIn: "1m" });
+  return jwt.sign(payload, secret, { expiresIn: "20s" });
 };
 
 let checkToken = (token) => {

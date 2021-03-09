@@ -2,11 +2,9 @@ const { loginService } = require("../services/login.service");
 const { success, fail } = require("../utils/httpresult");
 
 const loginRouter = async (req, res) => {
-  const { email, password } = req.query;
+  const { email, password } = req.body;
   try {
-    let loginResponse = await loginService(email, password);
-    // success(res, await loginService(email, password));
-    success(res, loginResponse);
+    success(res, await loginService(email, password));
   } catch (err) {
     fail(res, err);
   }

@@ -11,21 +11,21 @@ const loginService = async (email, password) => {
     let loginResponse;
     if (!user) {
       loginResponse = {
-        loginStatus: false,
+        logged_in: false,
         msg: "User doesn't exist.",
       };
       return loginResponse;
     }
     if (!bcrypt.compareSync(password, user.passwd)) {
       loginResponse = {
-        loginStatus: false,
+        logged_in: false,
         msg: "Invalid password, please try again.",
       };
       return loginResponse;
     }
     let token = "Bearer " + createToken({ email: email });
     loginResponse = {
-      loginStatus: true,
+      logged_in: true,
       token: token,
     };
     return loginResponse;

@@ -1,8 +1,8 @@
 const { signupService } = require("../services/signup.service");
 const { success, fail } = require("../utils/httpresult");
 
-const signup = async (req, res) => {
-  const { username, email, password } = req.query;
+const signupRouter = async (req, res) => {
+  const { username, email, password } = req.body;
   try {
     success(res, await signupService(username, email, password));
   } catch (err) {
@@ -10,4 +10,4 @@ const signup = async (req, res) => {
   }
 };
 
-module.exports = { signup };
+module.exports = { signupRouter };

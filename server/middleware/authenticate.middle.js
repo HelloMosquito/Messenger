@@ -7,16 +7,16 @@ const authenticate = (req, res, next) => {
     try {
       if (checkToken(token)) {
         let loginStatus = {
-          loginSuccess: true,
+          logged_in: true,
         };
-        return res.status(200).end(JSON.stringify(loginStatus));
+        return res.status(200).json(loginStatus);
       }
     } catch (err) {
       let loginStatus = {
-        loginSuccess: false,
-        msg: "invalid token",
+        logged_in: false,
+        msg: "Something goes wrong, please try again.",
       };
-      return res.status(403).end(JSON.stringify(loginStatus));
+      return res.status(403).json(loginStatus);
     }
   }
   next();
