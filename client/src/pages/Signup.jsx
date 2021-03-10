@@ -1,23 +1,35 @@
 import React from "react";
-import {CssBaseline, Box, Button, Grid, Hidden, IconButton, makeStyles, Paper, Snackbar, TextField, Typography} from "@material-ui/core";
+import {
+  CssBaseline,
+  Box,
+  Button,
+  Grid,
+  Hidden,
+  IconButton,
+  makeStyles,
+  Paper,
+  Snackbar,
+  TextField,
+  Typography,
+} from "@material-ui/core";
 import { Link, useHistory } from "react-router-dom";
 import CloseIcon from "@material-ui/icons/Close";
 import { Formik } from "formik";
 import * as Yup from "yup";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     minHeight: "100vh",
     "& .MuiInput-underline:before": {
-      borderBottom: "1.2px solid rgba(0, 0, 0, 0.2)"
-    }
+      borderBottom: "1.2px solid rgba(0, 0, 0, 0.2)",
+    },
   },
   welcome: {
     fontSize: 26,
     paddingBottom: 20,
     color: "#000000",
     fontWeight: 700,
-    fontFamily: "'Open Sans'"
+    fontFamily: "'Open Sans'",
   },
   heroText: {
     fontSize: 26,
@@ -25,7 +37,7 @@ const useStyles = makeStyles(theme => ({
     textAlign: "center",
     color: "white",
     marginTop: 30,
-    maxWidth: 300
+    maxWidth: 300,
   },
   overlay: {
     backgroundImage:
@@ -37,7 +49,7 @@ const useStyles = makeStyles(theme => ({
     paddingBottom: 145,
     display: "flex",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   buttonHeader: {
     display: "flex",
@@ -46,7 +58,7 @@ const useStyles = makeStyles(theme => ({
     flexDirection: "column",
     bgcolor: "background.paper",
     minHeight: "100vh",
-    paddingTop: 23
+    paddingTop: 23,
   },
   accBtn: {
     width: 170,
@@ -56,7 +68,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: "#ffffff",
     color: "#3a8dff",
     boxShadow: "none",
-    marginRight: 35
+    marginRight: 35,
   },
   noAccBtn: {
     fontSize: 14,
@@ -64,13 +76,13 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 400,
     textAlign: "center",
     marginRight: 21,
-    whiteSpace: "nowrap"
+    whiteSpace: "nowrap",
   },
   image: {
     backgroundImage: "url(./images/bg-img.png)",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
-    backgroundPosition: "center"
+    backgroundPosition: "center",
   },
   box: {
     padding: 24,
@@ -80,11 +92,11 @@ const useStyles = makeStyles(theme => ({
     minHeight: "100vh",
     flexDirection: "column",
     maxWidth: 900,
-    margin: "auto"
+    margin: "auto",
   },
   form: {
     width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(1)
+    marginTop: theme.spacing(1),
   },
   label: { fontSize: 19, color: "rgb(0,0,0,0.4)", paddingLeft: "5px" },
   submit: {
@@ -96,14 +108,14 @@ const useStyles = makeStyles(theme => ({
     marginTop: 49,
     fontSize: 16,
     backgroundColor: "#3a8dff",
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
   inputs: {
     marginTop: ".8rem",
     height: "2rem",
-    padding: "5px"
+    padding: "5px",
   },
-  link: { textDecoration: "none", display: "flex", flexWrap: "nowrap" }
+  link: { textDecoration: "none", display: "flex", flexWrap: "nowrap" },
 }));
 
 function useRegister() {
@@ -112,12 +124,24 @@ function useRegister() {
   const login = async (username, email, password) => {
     console.log(email, password);
     const res = await fetch(
-      `/auth/signup?username=${username}&email=${email}&password=${password}`
-    ).then(res => res.json());
+      `/auth/signup?username=${username}&email=${email}&password=${password}`,
+      {
+        method: "POST",
+        // headers: { "Content-Type": "application/json" },
+        // body: { "email": email, "username": username, "password": password }
+      }
+    ).then((res) => res.json());
     console.log(res);
+    console.log(res.data.signupSuccess);
+    if (res.data.signupSuccess) {
+      history.push("/login");
+    } else {
+      console.log("register failed");
+    }
     localStorage.setItem("user", res.user);
     localStorage.setItem("token", res.token);
-    history.push("/dashboard");
+    // history.push("/dashboard");
+    // history.push("/login");
   };
   return login;
 }
@@ -137,7 +161,8 @@ export default function Register() {
 
   React.useEffect(() => {
     const user = localStorage.getItem("user");
-    if (user) history.push("/dashboard");
+    // if (user) history.push("/dashboard");
+    if (user) history.push("/login");
   }, []);
 
   return (
@@ -187,7 +212,7 @@ export default function Register() {
             <Formik
               initialValues={{
                 email: "",
-                password: ""
+                password: "",
               }}
               validationSchema={Yup.object().shape({
                 username: Yup.string()
@@ -199,7 +224,7 @@ export default function Register() {
                 password: Yup.string()
                   .required("Password is required")
                   .max(100, "Password is too long")
-                  .min(6, "Password too short")
+                  .min(6, "Password too short"),
               })}
               onSubmit={(
                 { username, email, password },
@@ -212,7 +237,7 @@ export default function Register() {
                     console.log(email, password);
                     return;
                   },
-                  error => {
+                  (error) => {
                     setSubmitting(false);
                     setStatus(error);
                   }
@@ -236,7 +261,7 @@ export default function Register() {
                     id="username"
                     margin="normal"
                     InputLabelProps={{
-                      shrink: true
+                      shrink: true,
                     }}
                     InputProps={{ classes: { input: classes.inputs } }}
                     name="username"
@@ -257,7 +282,7 @@ export default function Register() {
                     fullWidth
                     margin="normal"
                     InputLabelProps={{
-                      shrink: true
+                      shrink: true,
                     }}
                     InputProps={{ classes: { input: classes.inputs } }}
                     name="email"
@@ -277,10 +302,10 @@ export default function Register() {
                     fullWidth
                     margin="normal"
                     InputLabelProps={{
-                      shrink: true
+                      shrink: true,
                     }}
                     InputProps={{
-                      classes: { input: classes.inputs }
+                      classes: { input: classes.inputs },
                     }}
                     type="password"
                     autoComplete="current-password"
@@ -311,7 +336,7 @@ export default function Register() {
         <Snackbar
           anchorOrigin={{
             vertical: "bottom",
-            horizontal: "center"
+            horizontal: "center",
           }}
           open={open}
           autoHideDuration={6000}
