@@ -115,6 +115,7 @@ const useLogin = (setOpen, setLoginMsg) => {
     }).then((res) => res.json());
     if (res.data.logged_in) {
       cookie.save("token", res.data.token, { path: "/" });
+      cookie.save("email", email, { path: "/" });
       history.push("/messenger");
     } else {
       setLoginMsg(res.data.msg);
@@ -130,8 +131,6 @@ export default function Login() {
   const [loginMsg, setLoginMsg] = React.useState("");
 
   const history = useHistory();
-
-  React.useEffect(() => {}, []);
 
   const login = useLogin(setOpen, setLoginMsg);
 

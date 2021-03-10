@@ -41,8 +41,8 @@ const useAuthenticate = () => {
   const history = useHistory();
 
   const authenticate = async () => {
-    const res = await fetch("/auth/messenger", {
-      mtehod: "POST",
+    const res = await fetch("/auth/login", {
+      method: "POST",
       headers: {
         Authentication: cookie.load("token"),
       },
@@ -65,17 +65,14 @@ export default function Messenger(props) {
 
   const handleDrawerOpen = () => {
     setDrawerOpen(true);
-    console.log("hahahaha");
   };
 
   const handleDrawerClose = () => {
-    console.log("===>", drawerOpen);
     setDrawerOpen(false);
-    console.log("===>", drawerOpen);
   };
 
   const authenticate = useAuthenticate();
-  // authenticate();
+  authenticate();
 
   return (
     <Fragment>
