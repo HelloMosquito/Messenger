@@ -71,26 +71,28 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function useRegister() {
+function useRegister(setOpen, setSignupMsg) {
   const history = useHistory();
 
   const login = async (username, email, password) => {
-    const res = await fetch(`/auth/signup`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: email,
-        username: username,
-        password: password,
-      }),
-    }).then((res) => res.json());
-    console.log(res);
-    console.log(typeof res);
-    console.log(res.data.signupSuccess);
-    if (res.data.signupSuccess) {
-      history.push("/login");
-    } else {
-      console.log("register failed");
+    try {
+      const res = await fetch(`/auth/signup`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: email,
+          username: username,
+          password: password,
+        }),
+      }).then((res) => res.json());
+      if (res.data.signedup) {
+        history.push("/login");
+      } else {
+        setSignupMsg(res.data.msg);
+        setOpen(true);
+      }
+    } catch (error) {
+      history.push("/400");
     }
   };
   return login;
@@ -98,9 +100,10 @@ function useRegister() {
 
 export default function Register() {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
+  const [signupMsg, setSignupMsg] = React.useState("");
 
-  const register = useRegister();
+  const register = useRegister(setOpen, setSignupMsg);
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") return;
@@ -155,7 +158,7 @@ export default function Register() {
                 register(username, email, password).then(
                   () => {
                     // useHistory push to chat
-                    console.log(email, password);
+                    // console.log(email, password);
                     return;
                   },
                   (error) => {
@@ -244,7 +247,11 @@ export default function Register() {
           </Box>
           <Box p={1} alignSelf="center" />
         </Box>
-        <IndexSnackbarComponent initState={true} msg="Email already exists" />
+        <IndexSnackbarComponent
+          open={open}
+          handleClose={handleClose}
+          msg={signupMsg}
+        />
       </Grid>
     </Grid>
   );

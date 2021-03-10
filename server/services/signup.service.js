@@ -1,4 +1,5 @@
 const { addUser } = require("../dal/dao/user.dao");
+const { findUserByEmail } = require("../dal/dao/user.dao");
 const { encrypt } = require("../utils/secrets");
 
 let signupService = async (username, email, passwd) => {
@@ -6,11 +7,20 @@ let signupService = async (username, email, passwd) => {
     if (!username || !email || !passwd) {
       throw new Error("Missing necessary parameter(s)");
     }
+    let checkEmail = await findUserByEmail(email);
+    let signupResponse;
+    if (checkEmail !== null) {
+      signupResponse = {
+        signedup: false,
+        msg: "This email has been registered.",
+      };
+      return signupResponse;
+    }
     await addUser(username, email, encrypt(passwd));
-    let data = {
-      signupSuccess: true,
+    signupResponse = {
+      signedup: true,
     };
-    return data;
+    return signupResponse;
   } catch (err) {
     throw err;
   }

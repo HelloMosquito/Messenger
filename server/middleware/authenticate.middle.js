@@ -14,9 +14,8 @@ const authenticate = (req, res, next) => {
     } catch (err) {
       let loginStatus = {
         logged_in: false,
-        msg: "Something goes wrong, please try again.",
+        msg: "Invalid Token",
       };
-      return res.status(403).json(loginStatus);
     }
   }
   next();

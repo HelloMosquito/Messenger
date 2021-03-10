@@ -6,9 +6,10 @@ const { loginRouter } = require("./login.router");
 const { signupRouter } = require("./signup.router");
 const { authenticate } = require("../middleware/authenticate.middle");
 
-router.post("/auth/login", authenticate, loginRouter);
-router.post("/auth/signup", signupRouter);
+// router.use("/auth/messenger", authenticate);
+router.use("/auth", authenticate);
 
-router.use("/auth/messenger", authenticate);
+router.post("/auth/login", loginRouter);
+router.post("/auth/signup", signupRouter);
 
 module.exports = router;
