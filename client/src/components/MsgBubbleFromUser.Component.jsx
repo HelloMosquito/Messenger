@@ -48,15 +48,7 @@ export default function MsgBubbleFromOthersComponent(props) {
         <Box className={classes.msgContainer}>
           <Box className={classes.userDatetime}>{props.datetime}</Box>
           <Box className={classes.msgBubbleContainer}>
-            <Box className={classes.msgBubble}>
-              aoijf fsadfasdfoiwaefjoiwai aoijfoidfasdfwaefjoiwai
-              aoijfoiwafasdfefjoiwai aoijfoiwaefjoiwai aoijfoiwaefjoiwai
-              aoijfoiwaefjsdfdsfoiwai aoijfoiwaefjoiwai aoijfoiwaefjoiwai
-              aoijfoiwaefjoiwai aoijfoiwaefjoiwai aoijfoiwaefjoiwai
-              aoijfoiwaefjoiwai aoijfoiwaefjoiwai aoijfoiwaefjoiwai
-              aoijfoiwaefjoiwai aoijfoiwaefjoiwai aoijfoiwaefjoiwai
-              aoijfoiwaefjoiwai
-            </Box>
+            <Box className={classes.msgBubble}>{props.content}</Box>
           </Box>
         </Box>
       </Box>

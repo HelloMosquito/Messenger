@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Messenger from "./pages/Messenger";
 import Badrequest400 from "./pages/Badrequest400";
+import Chat from "./pages/Chat";
 
 import "./App.css";
 
@@ -17,6 +18,7 @@ function App() {
         <Route path="/signup" component={Signup} />
         <Route path="/messenger" component={Messenger} />
         <Route path="/400" component={Badrequest400} />
+        <Route path="/chat" component={Chat} />
         <Route exact path="/">
           <Redirect to="/signup" />
         </Route>

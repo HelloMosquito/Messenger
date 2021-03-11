@@ -15,6 +15,7 @@ import IndexSnackbarComponent from "./IndexSnackbar.Component";
 import IndexTitleComponent from "./IndexTitle.Component";
 import IndexSubmitBtnComponent from "./IndexSubmitBtn.Component";
 import ChatNavDrawerComponent from "./ChatNavDrawer.Component";
+import CurrentChatComponent from "./CurrentChat.Component";
 
 export {
   ContactsListComponent,
@@ -34,4 +35,5 @@ export {
   IndexTitleComponent,
   IndexSubmitBtnComponent,
   ChatNavDrawerComponent,
+  CurrentChatComponent,
 };

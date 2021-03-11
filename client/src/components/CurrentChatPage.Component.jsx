@@ -24,6 +24,48 @@ export default function CurrentChatPageComponent(props) {
   const classes = useStyles(props);
   const messagesEndRef = useRef();
 
+  // const [messages, setMessages] = React.useState([
+  //   <MsgBubbleFromOthersComponent
+  //     name={"santiago"}
+  //     datetime={"2021-03-01 01:00:00"}
+  //   />,
+  //   <MsgPicutreFromUserComponent
+  //     name={"cheng"}
+  //     datetime={"2021-03-02 01:00:00"}
+  //   />,
+  //   <MsgPictureFromOthersComponent
+  //     name={"cheng"}
+  //     datetime={"2021-03-03 01:00:00"}
+  //   />,
+  //   <MsgBubbleFromUserComponent
+  //     name={"cheng"}
+  //     datetime={"2021-03-01 01:00:00"}
+  //   />,
+  //   <MsgBubbleFromOthersComponent
+  //     name={"santiago"}
+  //     datetime={"2021-03-01 01:00:00"}
+  //   />,
+  //   <MsgBubbleFromOthersComponent
+  //     name={"santiago"}
+  //     datetime={"2021-03-01 01:00:00"}
+  //   />,
+  //   <MsgBubbleFromOthersComponent
+  //     name={"santiago"}
+  //     datetime={"2021-03-01 01:00:00"}
+  //   />,
+  //   <MsgBubbleFromOthersComponent
+  //     name={"santiago"}
+  //     datetime={"2021-03-01 01:00:00"}
+  //   />,
+  // ]);
+  // const [userSendingMessage, setUserSendingMessage] = React.useState("");
+
+  // const handleUpdateMsg = () => {
+  //   setMessages((messages) => {
+  //     return [...messages, <MsgBubbleFromUserComponent />];
+  //   });
+  // };
+
   useEffect(() => {
     scrollToBottom(messagesEndRef);
   }, []);
@@ -32,7 +74,11 @@ export default function CurrentChatPageComponent(props) {
     <Fragment>
       <Box className={classes.currentChannel}>
         <Box display="flex" flexDirection="column">
-          <MsgBubbleFromOthersComponent
+          {props.messages.map((message) => {
+            return message;
+          })}
+
+          {/* <MsgBubbleFromOthersComponent
             name={"santiago"}
             datetime={"2021-03-01 01:00:00"}
           />
@@ -63,7 +109,7 @@ export default function CurrentChatPageComponent(props) {
           <MsgBubbleFromOthersComponent
             name={"santiago"}
             datetime={"2021-03-01 01:00:00"}
-          />
+          /> */}
           <Box ref={messagesEndRef}> </Box>
         </Box>
       </Box>

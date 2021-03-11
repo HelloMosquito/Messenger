@@ -1,10 +1,11 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import * as Components from "../components/Components";
 import { useHistory } from "react-router-dom";
 import cookie from "react-cookies";
 import clsx from "clsx";
+import webSocket from "socket.io-client";
 
 const drawerWidth = "35vw";
 
@@ -51,7 +52,7 @@ const useAuthenticate = () => {
       .catch((error) => {
         history.push("/login");
       });
-    if (res === undefined || !res.logged_in) {
+    if (!res.logged_in) {
       history.push("/login");
     }
   };
@@ -59,24 +60,45 @@ const useAuthenticate = () => {
 };
 
 export default function Messenger(props) {
-  const classes = useStyles(props);
-
-  const [drawerOpen, setDrawerOpen] = React.useState(true);
-
-  const handleDrawerOpen = () => {
-    setDrawerOpen(true);
+  const [ws, setWs] = useState(null);
+  const connectWebSocket = () => {
+    setWs(webSocket("http://localhost:3001"));
   };
 
-  const handleDrawerClose = () => {
-    setDrawerOpen(false);
+  useEffect(() => {
+    if (ws) {
+      console.log("success connect!");
+      initWebSocket();
+    }
+  }, [ws]);
+
+  const initWebSocket = () => {
+    ws.on("getMsg", (msg) => {
+      console.log("From server: ", msg);
+    });
   };
 
-  const authenticate = useAuthenticate();
+  const sendMsg = () => {
+    ws.emit("getMsg", "SERVER!!!!!");
+  };
+  // const classes = useStyles(props);
+
+  // const [drawerOpen, setDrawerOpen] = React.useState(true);
+
+  // const handleDrawerOpen = () => {
+  //   setDrawerOpen(true);
+  // };
+
+  // const handleDrawerClose = () => {
+  //   setDrawerOpen(false);
+  // };
+
+  // const authenticate = useAuthenticate();
   // authenticate();
 
   return (
     <Fragment>
-      <Box className={classes.root}>
+      {/* <Box className={classes.root}>
         <Box className={classes.drawer}>
           <Components.ChatNavDrawerComponent
             drawerWidth={drawerWidth}
@@ -84,24 +106,23 @@ export default function Messenger(props) {
             handleDrawerClose={handleDrawerClose}
             handleDrawerOpen={handleDrawerOpen}
           />
-        </Box>
-        <Box
+        </Box> */}
+      <input type="button" value="連線" onClick={connectWebSocket} />
+      <div></div>
+      <input type="button" value="送出訊息" onClick={sendMsg} />
+      {/* <Box
           className={clsx(classes.chatChannel, {
             [classes.chatChannelShift]: drawerOpen,
           })}
         >
-          <Components.CurrentChatComponent
-            drawerOpen={drawerOpen}
-            handleDrawerOpen={handleDrawerOpen}
-          />
-          {/* <Components.CurrentChatHeaderComponent />
+          <Components.CurrentChatHeaderComponent />
           <Components.CurrentChatPageComponent />
           <Components.MsgTypingComponent
             drawerOpen={drawerOpen}
             handleDrawerOpen={handleDrawerOpen}
-          /> */}
+          />
         </Box>
-      </Box>
+      </Box> */}
     </Fragment>
   );
 }

@@ -4,6 +4,7 @@ import { Box, IconButton, InputAdornment, TextField } from "@material-ui/core";
 import InsertEmotion from "@material-ui/icons/InsertEmoticonOutlined";
 import FileCopy from "@material-ui/icons/FileCopyOutlined";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import SendIcon from "@material-ui/icons/Send";
 import clsx from "clsx";
 
 const useStyles = makeStyles((theme) => ({
@@ -24,6 +25,17 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MsgTypingComponent(props) {
   const classes = useStyles();
+  const [typingMsg, setTypingMsg] = React.useState("");
+
+  const handleInputChange = (e) => {
+    setTypingMsg(e.target.value);
+  };
+
+  const handleSendMsg = () => {
+    console.log(typingMsg);
+    setTypingMsg("");
+  };
+
   return (
     <Fragment>
       <Box className={classes.container}>
@@ -40,12 +52,29 @@ export default function MsgTypingComponent(props) {
           variant="filled"
           placeholder="Type something..."
           className={classes.input}
+          value={typingMsg}
+          onChange={handleInputChange}
+          onKeyPress={(ev) => {
+            if (ev.key === "Enter") {
+              setTypingMsg("");
+              props.handleSendingMsg(typingMsg);
+            }
+          }}
           InputProps={{
             disableUnderline: true,
             endAdornment: (
               <InputAdornment>
                 <InsertEmotion style={{ color: "grey", marginRight: "10px" }} />
                 <FileCopy style={{ color: "grey", marginRight: "10px" }} />
+                <IconButton
+                  style={{ padding: "5px" }}
+                  onClick={(e) => {
+                    setTypingMsg("");
+                    props.handleSendingMsg(typingMsg);
+                  }}
+                >
+                  <SendIcon style={{ color: "grey" }} />
+                </IconButton>
               </InputAdornment>
             ),
             style: {
