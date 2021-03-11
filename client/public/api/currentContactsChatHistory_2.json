@@ -1,0 +1,21 @@
+{
+  "success": true,
+  "res": [
+    {
+      "from": 1111,
+      "to": 3333,
+      "message-type": 0,
+      "content": "I am going to gym.",
+      "createdAt":"2021-5-13 12:52:00",
+      "updatedAt":"2021-5-13 12:52:00"
+    },
+    {
+      "from": 3333,
+      "to": 1111,
+      "message-type": 0,
+      "content": "Remember to take a picture.",
+      "createdAt":"2021-6-15 17:49:06",
+      "updatedAt":"2021-6-15 17:49:06"
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Box } from "@material-ui/core";
+import { Box, Avatar } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
@@ -20,37 +20,32 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "flex-end",
   },
+  img: {
+    width: "200px",
+    borderRadius: 10,
+    borderBottomRightRadius: 0,
+  },
   userDatetime: {
     color: "#bfbfbf",
     marginBottom: 3,
   },
-  msgBubbleContainer: {
-    width: "100%",
-    display: "flex",
-    justifyContent: "flex-end",
-    alignItems: "center",
-  },
-  msgBubble: {
-    maxWidth: "60%",
-    padding: "10px",
-    backgroundColor: "#e6e6e6",
-    borderRadius: 10,
-    borderBottomRightRadius: 0,
-    color: "#808080",
-  },
 }));
 
-export default function MsgBubbleFromOthersComponent(props) {
+export default function MsgPicutreFromUserComponent(props) {
   const classes = useStyles();
   return (
     <Fragment>
       <Box className={classes.container}>
         <Box className={classes.msgContainer}>
           <Box className={classes.userDatetime}>{props.datetime}</Box>
-          <Box className={classes.msgBubbleContainer}>
-            <Box className={classes.msgBubble}>{props.content}</Box>
-          </Box>
         </Box>
+        <img className={classes.img} src="/images/pic.png" />
+        {/* User photo */}
+        <Avatar
+          className={classes.avatar}
+          alt={"user"}
+          src="/images/thomas.png"
+        />
       </Box>
     </Fragment>
   );

@@ -5,7 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
-    margin: "5px 10px 5px 0",
+    margin: "5px 0 5px 0",
   },
   avatar: {
     width: "30px",
@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: "10px",
   },
   msgContainer: {
-    width: "100%",
+    width: `calc(100% - 40px)`,
     display: "flex",
     flexDirection: "column",
   },

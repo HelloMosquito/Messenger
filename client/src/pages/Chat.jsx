@@ -81,48 +81,15 @@ export default function Messenger(props) {
   const sendMsg = () => {
     ws.emit("getMsg", "SERVER!!!!!");
   };
-  // const classes = useStyles(props);
-
-  // const [drawerOpen, setDrawerOpen] = React.useState(true);
-
-  // const handleDrawerOpen = () => {
-  //   setDrawerOpen(true);
-  // };
-
-  // const handleDrawerClose = () => {
-  //   setDrawerOpen(false);
-  // };
 
   // const authenticate = useAuthenticate();
   // authenticate();
 
   return (
     <Fragment>
-      {/* <Box className={classes.root}>
-        <Box className={classes.drawer}>
-          <Components.ChatNavDrawerComponent
-            drawerWidth={drawerWidth}
-            drawerOpen={drawerOpen}
-            handleDrawerClose={handleDrawerClose}
-            handleDrawerOpen={handleDrawerOpen}
-          />
-        </Box> */}
-      <input type="button" value="連線" onClick={connectWebSocket} />
+      <input type="button" value="Connect Server" onClick={connectWebSocket} />
       <div></div>
-      <input type="button" value="送出訊息" onClick={sendMsg} />
-      {/* <Box
-          className={clsx(classes.chatChannel, {
-            [classes.chatChannelShift]: drawerOpen,
-          })}
-        >
-          <Components.CurrentChatHeaderComponent />
-          <Components.CurrentChatPageComponent />
-          <Components.MsgTypingComponent
-            drawerOpen={drawerOpen}
-            handleDrawerOpen={handleDrawerOpen}
-          />
-        </Box>
-      </Box> */}
+      <input type="button" value="Send Message" onClick={sendMsg} />
     </Fragment>
   );
 }

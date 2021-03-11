@@ -4,8 +4,16 @@ import { Box, IconButton, InputAdornment, TextField } from "@material-ui/core";
 import InsertEmotion from "@material-ui/icons/InsertEmoticonOutlined";
 import FileCopy from "@material-ui/icons/FileCopyOutlined";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import CropOriginalIcon from "@material-ui/icons/CropOriginal";
 import SendIcon from "@material-ui/icons/Send";
 import clsx from "clsx";
+import { useSelector, useDispatch } from "react-redux";
+import moment from "moment";
+import {
+  getOpenNavDrawer,
+  getTypingMsg,
+  getSendingMsg,
+} from "../../store/actionCreator";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -25,26 +33,31 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MsgTypingComponent(props) {
   const classes = useStyles();
-  const [typingMsg, setTypingMsg] = React.useState("");
 
-  const handleInputChange = (e) => {
-    setTypingMsg(e.target.value);
+  const drawerOpenStatus = useSelector((state) => state.get("navDrawerOpen"));
+  const dispatch = useDispatch();
+  const typingMsg = useSelector((state) => state.get("userTypingMsg"));
+
+  const handleSendingMsg = () => {
+    const currentDatetime = moment().format("YYYY-MM-DD hh:mm:ss");
+    dispatch(
+      getSendingMsg({
+        from: 1111,
+        to: 2222,
+        messageType: 0,
+        datetime: currentDatetime,
+      })
+    );
   };
-
-  const handleSendMsg = () => {
-    console.log(typingMsg);
-    setTypingMsg("");
-  };
-
   return (
     <Fragment>
       <Box className={classes.container}>
         <IconButton
           color="inherit"
           aria-label="open drawer"
-          onClick={props.handleDrawerOpen}
+          onClick={() => dispatch(getOpenNavDrawer())}
           edge="start"
-          className={clsx({ [classes.hide]: props.drawerOpen })}
+          className={clsx({ [classes.hide]: drawerOpenStatus })}
         >
           <ChevronRightIcon fontSize="large" m={0} />
         </IconButton>
@@ -53,27 +66,33 @@ export default function MsgTypingComponent(props) {
           placeholder="Type something..."
           className={classes.input}
           value={typingMsg}
-          onChange={handleInputChange}
+          onChange={(e) => {
+            dispatch(getTypingMsg(e.target.value));
+          }}
           onKeyPress={(ev) => {
-            if (ev.key === "Enter") {
-              setTypingMsg("");
-              props.handleSendingMsg(typingMsg);
+            if (typingMsg !== "" && ev.key === "Enter") {
+              handleSendingMsg();
             }
           }}
           InputProps={{
             disableUnderline: true,
             endAdornment: (
               <InputAdornment>
-                <InsertEmotion style={{ color: "grey", marginRight: "10px" }} />
-                <FileCopy style={{ color: "grey", marginRight: "10px" }} />
+                <IconButton style={{ padding: "5px" }}>
+                  <InsertEmotion style={{ color: "#757575" }} />
+                </IconButton>
+                <IconButton style={{ padding: "5px" }}>
+                  <CropOriginalIcon style={{ color: "#757575" }} />
+                </IconButton>
                 <IconButton
+                  style={{ backgroundColor: "#757575" }}
+                  disabled={typingMsg === ""}
                   style={{ padding: "5px" }}
                   onClick={(e) => {
-                    setTypingMsg("");
-                    props.handleSendingMsg(typingMsg);
+                    handleSendingMsg();
                   }}
                 >
-                  <SendIcon style={{ color: "grey" }} />
+                  <SendIcon />
                 </IconButton>
               </InputAdornment>
             ),

@@ -19,6 +19,7 @@ import {
   IndexTitleComponent,
   IndexSubmitBtnComponent,
 } from "../components/Components";
+import webSocket from "socket.io-client";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -127,7 +128,7 @@ const useLogin = (setOpen, setLoginMsg) => {
 
 export default function Login() {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false); // switch of the snackerbar for error warning
   const [loginMsg, setLoginMsg] = React.useState("");
 
   const history = useHistory();
@@ -138,6 +139,13 @@ export default function Login() {
     if (reason === "clickaway") return;
     setOpen(false);
   };
+
+  // // Establish the socket between current user and server
+  // const [ws, setWs] = useState(null);
+  // const connectWebSocket = () => {
+  //   setWs(webSocket("http://localhost:3001"));
+  //   // console.log();
+  // };
 
   return (
     <Grid container component="main" className={classes.root}>

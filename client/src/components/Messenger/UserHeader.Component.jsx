@@ -28,6 +28,9 @@ const useStyles = makeStyles((theme) => ({
     width: "60px",
     height: "60px",
   },
+  userOnlineStatus: {
+    backgroundColor: "#00c853",
+  },
 }));
 
 export default function UserHeaderComponent(props) {
@@ -37,7 +40,7 @@ export default function UserHeaderComponent(props) {
       <Box className={classes.userHeaderContainer}>
         {/* User photo component */}
         <Badge
-          color="primary"
+          classes={{ badge: classes.userOnlineStatus }}
           variant="dot"
           overlap="circle"
           anchorOrigin={{
@@ -56,7 +59,7 @@ export default function UserHeaderComponent(props) {
         <Box className={classes.userName}>Thomas</Box>
 
         {/* User setting "..." component */}
-        <More />
+        <More style={{ color: "grey" }} />
       </Box>
     </Fragment>
   );
