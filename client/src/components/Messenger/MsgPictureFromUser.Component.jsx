@@ -1,8 +1,8 @@
 import React, { Fragment } from "react";
-import { Box, Avatar } from "@material-ui/core";
+import { Box, Avatar, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   container: {
     display: "flex",
     flexDirection: "column",
@@ -25,10 +25,11 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 10,
     borderBottomRightRadius: 0,
   },
-  userDatetime: {
+  userDatetimeContainer: {
     color: "#bfbfbf",
     marginBottom: 3,
   },
+  datetime: { display: "flex", fontSize: "0.8em", alignItems: "center" },
 }));
 
 export default function MsgPicutreFromUserComponent(props) {
@@ -37,7 +38,11 @@ export default function MsgPicutreFromUserComponent(props) {
     <Fragment>
       <Box className={classes.container}>
         <Box className={classes.msgContainer}>
-          <Box className={classes.userDatetime}>{props.datetime}</Box>
+          <Box className={classes.userDatetimeContainer}>
+            <Typography className={classes.datetime}>
+              {props.datetime}
+            </Typography>
+          </Box>
         </Box>
         <img className={classes.img} src="/images/pic.png" />
         {/* User photo */}

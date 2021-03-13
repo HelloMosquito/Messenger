@@ -1,39 +1,23 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
+import { authorized } from "./utils/authorization";
 
-const checkAuth = () => {};
-
-function ProtectedRoute({
-  isAuth: isAuth,
-  isLoading: isLoading,
-  component: Component,
-  ...rest
-}) {
-  // console.log("I'm in Protected Route");
+const ProtectedRoute = ({ isLoading, component: Component, ...rest }) => {
   return (
     <Route
       {...rest}
       render={(props) => {
-        if (isAuth) {
-          // console.log(isAuth, ">>>>>>>>>>>>>>>>>>>>>>>>>>");
+        if (authorized()) {
           return <Component {...props} />;
-        } else {
-          if (isLoading) {
-            return (
-              <Redirect
-                to={{ pathname: "/loading", state: { from: props.location } }}
-              />
-            );
-          }
-          return (
-            <Redirect
-              to={{ pathname: "/login", state: { from: props.location } }}
-            />
-          );
         }
+        return (
+          <Redirect
+            to={{ pathname: "/login", state: { from: props.location } }}
+          />
+        );
       }}
     ></Route>
   );
-}
+};
 
 export default ProtectedRoute;

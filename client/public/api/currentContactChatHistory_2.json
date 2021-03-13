@@ -1,19 +1,19 @@
 {
   "success": true,
-  "res": [
+  "data": [
     {
       "from": 1111,
-      "to": 3333,
+      "to": 4444,
       "message-type": 0,
-      "content": "I am going to gym.",
+      "content": "It's going to rain heavily tomorrow night!",
       "createdAt":"2021-5-13 12:52:00",
       "updatedAt":"2021-5-13 12:52:00"
     },
     {
-      "from": 3333,
+      "from": 4444,
       "to": 1111,
       "message-type": 0,
-      "content": "Remember to take a picture.",
+      "content": "Stay Home!!!",
       "createdAt":"2021-6-15 17:49:06",
       "updatedAt":"2021-6-15 17:49:06"
     }

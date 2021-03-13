@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Box, Badge, Avatar, Typography } from "@material-ui/core";
 
@@ -45,6 +45,10 @@ const useStyles = makeStyles(() => ({
     backgroundColor: "#00c853",
   },
   contactOfflineStatus: {
+    backgroundColor: "#f5f5f5",
+    border: "2px solid #9e9e9e",
+  },
+  contactBusyStatus: {
     backgroundColor: "#d50000",
   },
 }));
@@ -56,9 +60,12 @@ export default function ContactsListComponent(props) {
       {/* Contact photo */}
       <Badge
         classes={{
-          badge: props.onlineStatus
-            ? classes.contactOnlineStatus
-            : classes.contactOfflineStatus,
+          badge:
+            props.onlineStatus === 1
+              ? classes.contactOnlineStatus
+              : props.onlineStatus === 0
+              ? classes.contactOfflineStatus
+              : classes.contactBusyStatus,
         }}
         variant="dot"
         overlap="circle"

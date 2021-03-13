@@ -39,13 +39,17 @@ const useStyles = makeStyles((theme) => ({
     height: 13,
     width: 13,
     borderRadius: 10,
-    top: 10,
+    top: 12,
   },
   onlineStatusBadge: {
     backgroundColor: "#00c853",
   },
-  offlineStatusBadge: {
+  busyStatusBadge: {
     backgroundColor: "#d50000",
+  },
+  offlineStatusBadge: {
+    backgroundColor: "#f5f5f5",
+    border: "2px solid #9e9e9e",
   },
 }));
 
@@ -70,13 +74,21 @@ export default function CurrentChatHeaderComponent() {
           classes={{
             badge: clsx(
               classes.badgeRoot,
-              currentChatContact.get("onlineStatus")
+              currentChatContact.get("onlineStatus") === 1
                 ? classes.onlineStatusBadge
-                : classes.offlineStatusBadge
+                : currentChatContact.get("onlineStatus") === 0
+                ? classes.offlineStatusBadge
+                : classes.busyStatusBadge
             ),
           }}
         >
-          <Box className={classes.messengerHeaderStatus}>Online</Box>
+          <Box className={classes.messengerHeaderStatus}>
+            {currentChatContact.get("onlineStatus") === 1
+              ? "Online"
+              : currentChatContact.get("onlineStatus") === 0
+              ? "Offline"
+              : "Busy"}
+          </Box>
         </Badge>
         <Box className={classes.more}>
           <More />

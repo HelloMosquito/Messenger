@@ -2,7 +2,6 @@ import React, { Fragment } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Box, IconButton, InputAdornment, TextField } from "@material-ui/core";
 import InsertEmotion from "@material-ui/icons/InsertEmoticonOutlined";
-import FileCopy from "@material-ui/icons/FileCopyOutlined";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import CropOriginalIcon from "@material-ui/icons/CropOriginal";
 import SendIcon from "@material-ui/icons/Send";
@@ -15,7 +14,7 @@ import {
   getSendingMsg,
 } from "../../store/actionCreator";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   container: {
     width: "95%",
     height: 60,
@@ -31,15 +30,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MsgTypingComponent(props) {
+export default function MsgTypingComponent() {
   const classes = useStyles();
+  const hiddenFileInput = React.useRef(null);
 
   const drawerOpenStatus = useSelector((state) => state.get("navDrawerOpen"));
   const dispatch = useDispatch();
   const typingMsg = useSelector((state) => state.get("userTypingMsg"));
 
+  const socket = useSelector((state) => state.get("socket"));
+
   const handleSendingMsg = () => {
-    const currentDatetime = moment().format("YYYY-MM-DD hh:mm:ss");
+    const currentDatetime = moment().format("YYYY-MM-DD HH:mm:ss");
     dispatch(
       getSendingMsg({
         from: 1111,
@@ -48,7 +50,18 @@ export default function MsgTypingComponent(props) {
         datetime: currentDatetime,
       })
     );
+    sendingMsg(typingMsg);
   };
+  const sendingMsg = (msg) => {
+    if (socket !== null) {
+      socket.emit("messaging", msg);
+    }
+  };
+
+  const handleImageUpload = (e) => {
+    console.log(e.target.files[0]);
+  };
+
   return (
     <Fragment>
       <Box className={classes.container}>
@@ -81,7 +94,20 @@ export default function MsgTypingComponent(props) {
                 <IconButton style={{ padding: "5px" }}>
                   <InsertEmotion style={{ color: "#757575" }} />
                 </IconButton>
-                <IconButton style={{ padding: "5px" }}>
+                <input
+                  accept="image/*"
+                  id="upload-picture"
+                  type="file"
+                  ref={hiddenFileInput}
+                  onChange={handleImageUpload}
+                  hidden
+                />
+                <IconButton
+                  style={{ padding: "5px" }}
+                  onClick={(e) => {
+                    hiddenFileInput.current.click();
+                  }}
+                >
                   <CropOriginalIcon style={{ color: "#757575" }} />
                 </IconButton>
                 <IconButton

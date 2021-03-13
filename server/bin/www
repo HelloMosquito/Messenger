@@ -24,8 +24,9 @@ app.set("port", port);
 var server = http.createServer(app);
 
 var io = require("socket.io")(server, {
-  cors: true,
-  origins: ["http://127.0.0.1"],
+  cors: {
+    origins: ["*"],
+  },
 });
 
 /**
@@ -34,20 +35,6 @@ var io = require("socket.io")(server, {
 
 var { socketConnection } = require("../socket/socket");
 socketConnection(io);
-// io.on("connection", (socket) => {
-//   console.log("Server: new connection on socket");
-
-//   socket.on("disconnect", () => {
-//     console.log("userdisconnected");
-//   });
-
-//   socket.on("messaging", (msg) => {
-//     console.log("From client: ", msg);
-//     socket.emit("messaging", "hello client");
-//   });
-
-//   // console.log("hello");
-// });
 
 /**
  * Listen on provided port, on all network interfaces.

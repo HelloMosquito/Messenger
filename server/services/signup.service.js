@@ -12,9 +12,7 @@ let signupService = async (username, email, passwd) => {
     if (!username || !email || !passwd) {
       throw new Error("Missing necessary parameter(s)");
     }
-    // let checkEmail = await findUserByEmail(email);
     let signupResponse;
-    // if (checkEmail !== null) {
     if (await checkSignupEmail(email)) {
       signupResponse = {
         signedup: false,

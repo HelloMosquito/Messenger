@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import More from "@material-ui/icons/MoreHorizOutlined";
 import { Box, Badge, Avatar } from "@material-ui/core";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   userHeaderContainer: {
     height: "92px",
     padding: "16px",

@@ -1,8 +1,8 @@
 import React, { Fragment } from "react";
-import { Box, Avatar } from "@material-ui/core";
+import { Box, Avatar, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   container: {
     display: "flex",
     margin: "5px 0 5px 0",
@@ -18,9 +18,21 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
   },
-  nameAndDatetime: {
+  nameAndDatetimeContainer: {
     color: "#bfbfbf",
     marginBottom: 3,
+    display: "flex",
+    width: "60%",
+    flexWrap: "wrap",
+  },
+  name: {
+    fontSize: "1em",
+    marginRight: "10px",
+  },
+  datetime: {
+    display: "flex",
+    fontSize: "0.8em",
+    alignItems: "center",
   },
   img: {
     width: "200px",
@@ -43,8 +55,13 @@ export default function MsgPictureFromOthersComponent(props) {
         {/* Message container */}
         <Box className={classes.msgContainer}>
           {/* Messager name and datetime */}
-          <Box className={classes.nameAndDatetime}>
-            {props.name} {props.datetime}
+          <Box className={classes.nameAndDatetimeContainer}>
+            <Typography noWrap={true} className={classes.name}>
+              {props.name}
+            </Typography>
+            <Typography className={classes.datetime}>
+              {props.datetime}
+            </Typography>
           </Box>
           {/* Message picture */}
           <Box>

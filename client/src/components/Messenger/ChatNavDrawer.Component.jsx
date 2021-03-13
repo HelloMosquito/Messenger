@@ -3,7 +3,6 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { Box, Button, Divider, Drawer, IconButton } from "@material-ui/core";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-// import { useWindowSize } from "@react-hook/window-size";
 import clsx from "clsx";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -67,66 +66,38 @@ export default function ChatNavDrawerComponent(props) {
   const searchedContactsList = useSelector((state) =>
     state.get("searchedContactsList")
   );
+  const userSearchingName = useSelector((state) =>
+    state.get("userSearchingName")
+  );
   const renderedContactsList =
-    searchedContactsList.size === 0 ? allContactsList : searchedContactsList;
-  const currentClickedContactIdx = useSelector((state) =>
-    state.get("currentClickedContactIdx")
+    userSearchingName === "" && searchedContactsList.size === 0
+      ? allContactsList
+      : searchedContactsList;
+  const currentClickedContactUuid = useSelector((state) =>
+    state.get("currentClickedContactUuid")
   );
-  const currentChatMessagesHistory = useSelector((state) =>
-    state.get("currentChatMessagesHistory")
-  );
-  // const [width, height] = useWindowSize();
-
-  // const [clicked, setClicked] = React.useState(false);
-  // let clicked = useRef(false);
-
-  // const cancleContactsClickedStyles = () => {
-  //   // setClicked(false);
-  //   clicked.current = false;
-  //   console.log("3. =========", clicked.current);
-  // };
-
-  // const [currentClicked, setCurrentClicked] = React.useState(false);
-  // const [allClicked, setAllClicked] = React.useState(false);
-
-  // const handleItemClick = (idx) => {
-  //   let contactList = contacts;
-  //   contactList.map((item) => {
-  //     item.clicked = false;
-  //   });
-  //   contactList[idx].clicked = true;
-  //   setContacts([...contactList]);
-  //   console.log(contactList[idx].name);
-  //   // props.connectWebSocket();
-  // };
-
-  // useEffect(() => {
-  //   if (width < 720) {
-  //     props.handleDrawerClose();
-  //   }
-  // });
-
   const dispatch = useDispatch();
-  const handleClickContact = async (contact, idx) => {
-    if (currentChatMessagesHistory.size === 0) {
-      const chatMessagesHistoryResponse = await fetch(
-        "/api/currentContactsChatHistory_1.json"
-      )
-        .then((res) => res.json())
-        .catch((err) => console.log(err));
-      // console.log(chatMessagesHistoryResponse);
-      // console.log(getChatMessagesHistory(chatMessagesHistoryResponse.data));
-      // dispatch(getChatMessagesHistory(chatMessagesHistoryResponse.res));
-    }
+  const handleClickContact = async (contact) => {
+    /*
+      When clicking the contact in left navigation list, the staged msg needs
+      to be saved into database before cleaning staging.
+   */
+
+    const chatMessagesHistoryResponse = await fetch(
+      `/api/currentContactChatHistory_${contact.get("uuid")}.json`
+    )
+      .then((res) => res.json())
+      .catch((err) => console.log(err));
+    dispatch(getChatMessagesHistory(chatMessagesHistoryResponse.data));
     dispatch(
       getClickContact({
         name: contact.get("name"),
         onlineStatus: contact.get("onlineStatus"),
-        clickedIdx: idx,
+        clickedUuid: contact.get("uuid"),
       })
     );
-    console.log(">>>>", currentChatMessagesHistory);
   };
+
   const handleCloseNavDrawer = () => {
     dispatch(getCloseNavDrawer());
   };
@@ -146,11 +117,11 @@ export default function ChatNavDrawerComponent(props) {
           <Components.ChatAndSearchbarComponent />
 
           <Box className={classes.contactsListContainer}>
-            {renderedContactsList.map((contact, idx) => {
+            {renderedContactsList.map((contact) => {
               return (
                 <Button
                   className={clsx(
-                    currentClickedContactIdx === idx &&
+                    currentClickedContactUuid === contact.get("uuid") &&
                       classes.contactButtonClicked
                   )}
                   style={{
@@ -159,20 +130,13 @@ export default function ChatNavDrawerComponent(props) {
                     textAlign: "left",
                   }}
                   key={contact.get("uuid")}
-                  onClick={
-                    () => handleClickContact(contact, idx)
-                    // console.log(
-                    //   "CurrentChatPage.Component.jsx: ",
-                    //   `uuid: ${contact.uuid} name: ${contact.name}, lastMessage: ${contact.lastMessage}`
-                    // );
-                  }
+                  onClick={() => handleClickContact(contact)}
                 >
                   <Components.ContactsListComponent
                     photo={contact.get("photo")}
                     name={contact.get("name")}
                     lastMessage={contact.get("lastMessage")}
                     onlineStatus={contact.get("onlineStatus")}
-                    // connectWebSocket={props.connectWebSocket}
                   />
                 </Button>
               );

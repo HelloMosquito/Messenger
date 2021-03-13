@@ -1,8 +1,8 @@
 import React, { Fragment } from "react";
-import { Box } from "@material-ui/core";
+import { Box, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   container: {
     display: "flex",
     flexDirection: "column",
@@ -20,10 +20,11 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "flex-end",
   },
-  userDatetime: {
+  userDatetimeContainer: {
     color: "#bfbfbf",
     marginBottom: 3,
   },
+  datetime: { display: "flex", fontSize: "0.8em", alignItems: "center" },
   msgBubbleContainer: {
     width: "100%",
     display: "flex",
@@ -47,7 +48,11 @@ export default function MsgBubbleFromOthersComponent(props) {
     <Fragment>
       <Box className={classes.container}>
         <Box className={classes.msgContainer}>
-          <Box className={classes.userDatetime}>{props.datetime}</Box>
+          <Box className={classes.userDatetimeContainer}>
+            <Typography className={classes.datetime}>
+              {props.datetime}
+            </Typography>
+          </Box>
           <Box className={classes.msgBubbleContainer}>
             <Box className={classes.msgBubble}>{props.content}</Box>
           </Box>
