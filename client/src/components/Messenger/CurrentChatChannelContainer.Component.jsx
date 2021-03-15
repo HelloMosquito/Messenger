@@ -42,7 +42,7 @@ export default function CurrentChatChannelContainerComponent(props) {
         <Box display="flex" flexDirection="column">
           {props.messages.map((msg) => {
             if (msg.get("from") === userUuid) {
-              return msg.get("messageType") === 0 ? (
+              return msg.get("message-type") === 0 ? (
                 <MsgBubbleFromUserComponent
                   key={msg}
                   datetime={msg.get("createdAt")}
@@ -56,7 +56,7 @@ export default function CurrentChatChannelContainerComponent(props) {
                 />
               );
             }
-            return msg.get("messageType") === 0 ? (
+            return msg.get("message-type") === 0 ? (
               <MsgBubbleFromOthersComponent
                 key={msg}
                 name={currentChatContactName}

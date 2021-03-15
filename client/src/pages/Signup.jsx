@@ -2,7 +2,8 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import { SignupComponent } from "../components/Components";
 import { useDispatch } from "react-redux";
-import { openSnackbar } from "../store/actionCreator";
+import { openSnackbar, authorizeUser } from "../store/actionCreator";
+import cookie from "react-cookies";
 
 export default function Register() {
   const dispatch = useDispatch();
@@ -24,7 +25,10 @@ export default function Register() {
         .then((res) => res.json())
         .then((res) => {
           if (res.data.signedup) {
-            history.push("/login");
+            cookie.save("token", res.data.token, { path: "/" });
+            cookie.save("email", email, { path: "/" });
+            dispatch(authorizeUser());
+            history.push("/messenger");
           } else {
             dispatch(openSnackbar(res.data.msg));
           }

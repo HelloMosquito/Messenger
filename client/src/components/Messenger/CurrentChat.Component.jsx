@@ -16,18 +16,20 @@ export default function CurrentChatComponent() {
     {
       from: 1111,
       to: 3333,
-      messageType: 0,
-      content: "I am going to gym.",
-      createdAt: "2021-5-13 12:52:00",
-      updatedAt: "2021-5-13 12:52:00",
+      "message-type": 0,
+      content:
+        "This is a pre-defined pseudo-msg.This is a pre-defined pseudo-msg.This is a pre-defined pseudo-msg.This is a pre-defined pseudo-msg.",
+      createdAt: "2021-7-04 12:52:00",
+      updatedAt: "2021-7-04 12:52:00",
     },
     {
       from: 1111,
       to: 4444,
-      messageType: 0,
-      content: "It's going to rain heavily tomorrow night!",
-      createdAt: "2021-5-13 12:52:00",
-      updatedAt: "2021-5-13 12:52:00",
+      "message-type": 0,
+      content:
+        "It's a sunny day. Sunny day! It's a sunny day. Sunny day! It's a sunny day. Sunny day! It's a sunny day. Sunny day!",
+      createdAt: "2021-9-29 12:52:00",
+      updatedAt: "2021-9-29 12:52:00",
     },
   ]);
 

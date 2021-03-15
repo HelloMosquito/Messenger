@@ -13,7 +13,7 @@
       "from": 3333,
       "to": 1111,
       "message-type": 0,
-      "content": "Remember to take a picture.",
+      "content": "Please ignore the user photo. It can not be found because the name was modified here to test the UI of the FE. The name is still kept as the origin name.",
       "createdAt":"2021-6-15 17:49:06",
       "updatedAt":"2021-6-15 17:49:06"
     }

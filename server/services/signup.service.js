@@ -1,6 +1,7 @@
 const { addUser } = require("../dal/dao/user.dao");
 const { findUserByEmail } = require("../dal/dao/user.dao");
 const { encrypt } = require("../utils/secrets");
+const { createToken } = require("../utils/jwt");
 
 const checkSignupEmail = async (email) => {
   let registeredEmail = await findUserByEmail(email);
@@ -21,8 +22,10 @@ let signupService = async (username, email, passwd) => {
       return signupResponse;
     }
     await addUser(username, email, encrypt(passwd));
+    let token = "Bearer " + createToken({ email: email });
     signupResponse = {
       signedup: true,
+      token: token,
     };
     return signupResponse;
   } catch (err) {
